@@ -30,7 +30,7 @@ Reviewing each of these categories, the ones that are *most likely* be used to r
     1. Database/collection of data
 
 These categories will provide the starting point of the investigation. They are stored in files:
-* researchmaterialsearch-1502793014976.csv
-* researchdatabaseandmodelsearch-1502793915306.csv
+* researchmaterialsearch-1502793014976.csv (contains 9287 outcomes)
+* researchdatabaseandmodelsearch-1502793915306.csv (contains 5014 outcomes)
 
 Note! It is not possible at first to distinguish between the sub-categories in the above files because the downloaded data nor the API provides access to this cateogrisation. The only way to identify sub-categories is via the web interface. This is something that needs to be fixed.

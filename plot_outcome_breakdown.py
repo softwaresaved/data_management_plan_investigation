@@ -13,6 +13,7 @@ from textwrap import wrap
 
 DATAFILENAME1 = "./data/researchdatabaseandmodelsearch-1502793915306.csv"
 DATAFILENAME2 = "./data/researchmaterialsearch-1502793014976.csv"
+STOREFILENAME = "./output/"
 
 
 def import_csv_to_df(filename):
@@ -79,22 +80,28 @@ def plot_basic_seaborn(dict_of_dfs):
     things_to_print = ['Funding OrgName', 'LeadRO Name',
            'Outcome Type', 'Type of Material', 'Year Produced']
     
+    labels=[]
+    
     for current in things_to_print:
         # Read the dfs one at the time
         df_temp = dict_of_dfs[current]
         # Title's from the lookup table
-#        title = 
+        title = current
+        labels = df_temp.index
 
+        # Some of the labels are really long so I cut them up
+        # Note the str() function that's needed because one of
+        # the sets of labels is a list of floats (which can't be split)
+        labels = [ '\n'.join(wrap(str(l), 15)) for l in labels ]
 
         # Now plot first plot
-        sns.barplot(x = df_temp.index, y = df_temp[current], data = df_temp).set_title(current)
+        sns.barplot(x = labels, y = df_temp[current], data = df_temp).set_title(title)
         # Make gap at bottom bigger for labels (it's a fraction, not a measurement)
         plt.subplots_adjust(bottom=0.3)
-        plt.ylabel('Count')
+        plt.ylabel('No. of outcomes')
         plt.xticks(rotation=90)
+        plt.savefig(STOREFILENAME + 'basic_counts/' + title + '.png', format = 'png', dpi = 150)
         plt.show()
-#        plt.savefig(STOREFILENAME + 'basic_counts/' + key + '.png', format = 'png', dpi = 150)
-#        plt.show()
         # Funnliy enough, Seaborn seems a bit sticky. There's a weird kind of
         # colour bleed from one plot to the next. However, by explicitly clearing the 
         # frame in the following step, it's all sorted

@@ -47,6 +47,27 @@ def get_data_and_merge(file1, file2):
     return df
 
 
+def basic_stats(df):
+
+    print('The data frame contains ' + str(len(df)) + ' outcomes') 
+
+    return
+
+
+def find_strings(df):
+    
+    for current_col in df.columns:
+        try:
+            found = df[current_col].str.contains('doi:').sum()
+        except:
+            found = 0
+        if found != 0:
+            print(current_col + ' contains ' + str(found) + ' rows which mention a doi:')
+    print('')
+    print('The other columns did not contain the string')
+    return
+
+
 def get_counts(df):
 
     dict_of_dfs = {}
@@ -115,7 +136,7 @@ def plot_basic_seaborn(dict_of_dfs, redraw):
             plt.clf()
 
     return
-    
+
 
 def main():
     """
@@ -123,12 +144,18 @@ def main():
     """
     
     df = get_data_and_merge(DATAFILENAME1, DATAFILENAME2)
+
+    basic_stats(df)
+
+    find_strings(df)
     
     dfs_counts = get_counts(df)
     print(df.columns)
     
     redraw = input('Should I re-draw the charts? (y/n): ')
     plot_basic_seaborn(dfs_counts, redraw)
+    
+
     
 if __name__ == '__main__':
     main()

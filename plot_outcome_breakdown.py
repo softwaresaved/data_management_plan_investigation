@@ -66,18 +66,34 @@ def basic_stats(df):
 
 def find_strings(df):
 
-    find_strings = ['\bdoi\b', '\bdoi:\b', 'digital object identifier']
 
+    # Want to cycle through different words to see how well they are
+    # represented in the df
+    find_strings = ['doi', 'digital object identifier']
+
+    # Go through each word in the list and get some stats
     for search_string in find_strings:
+        not_found_cols = []
+        # Make up a regex from the search string
+        # The \b is used to do only whole word searches
+        find_regex = '\\b' + search_string + '\\b'
+        # Go through each column
         for current_col in df.columns:
+            # Using try/except because not all cols hold strings and doing
+            # a str.contains on a float col causes a crash
             try:
-                found = df[current_col].str.contains(search_string).sum()
+                # Count how times the regex is found in the current column
+                found = df[current_col].str.contains(find_regex).sum()
             except:
+                # If the regex can't be found (e.g. the col holds floats rather than strings)
+                # set the found to 0
                 found = 0
+            # Only output if 
             if found != 0:
                 print(current_col + ' contains ' + str(found) + ' rows which mentions ' + search_string)
-        print('')
-        print('The other columns did not contain the string')
+            else:
+                not_found_cols.append(current_col)
+        print('The search term ' + search_string + ' was not found in the following cols: ' + str(not_found_cols))
     return
 
 

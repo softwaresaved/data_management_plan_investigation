@@ -2,7 +2,7 @@
 
 ## Summary
 
-Investigate data related research outcomes and relate these to data management plans (DMPs). See whether DMPs have changed the work of researchers and how this is having an effect on research.
+This investigation will look into data-related research outcomes and data management plans (DMPs), with the ultimate aim of understanding whether DMPs have been effective at changing research practices.
 
 It's difficult at this stage to predict where this analysis will go. However, the general thrust is that we are interested in how well data management plans are being constructed, whether they are being complied with, and whether they are changing academic culture in relation to data.
 
@@ -14,4 +14,9 @@ Compliance to the DMP might be difficult to measure, but there is the possibilit
 
 ## Plan
 
-1. Get all data related research outcomes from Gateway to Research
+The keyword for this project will be 'Agile'. We know the general direction, but our route will be unknown until we investigate the data and see what is, and is not, possible. The basic stages are:
+
+1. Get all data related research outcomes from Gateway to Research.
+1. Analyse research outcomes and look for trends or peculiarities.
+1. Investigate whether DMPs can be converted to searchable text
+1. Perform projects to understand affect of DMPs on research

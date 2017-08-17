@@ -46,6 +46,16 @@ def get_data_and_merge(file1, file2):
 
     return df
 
+def lower_case(df):
+
+    for current_col in df.columns:
+        try:
+            df[current_col].str.lower()
+        except:
+            print('Could not be converted to lower case')
+
+    return df
+
 
 def basic_stats(df):
 
@@ -55,16 +65,19 @@ def basic_stats(df):
 
 
 def find_strings(df):
-    
-    for current_col in df.columns:
-        try:
-            found = df[current_col].str.contains('doi:').sum()
-        except:
-            found = 0
-        if found != 0:
-            print(current_col + ' contains ' + str(found) + ' rows which mention a doi:')
-    print('')
-    print('The other columns did not contain the string')
+
+    find_strings = ['\bdoi\b', '\bdoi:\b', 'digital object identifier']
+
+    for search_string in find_strings:
+        for current_col in df.columns:
+            try:
+                found = df[current_col].str.contains(search_string).sum()
+            except:
+                found = 0
+            if found != 0:
+                print(current_col + ' contains ' + str(found) + ' rows which mentions ' + search_string)
+        print('')
+        print('The other columns did not contain the string')
     return
 
 
@@ -144,6 +157,8 @@ def main():
     """
     
     df = get_data_and_merge(DATAFILENAME1, DATAFILENAME2)
+
+    df = lower_case(df)
 
     basic_stats(df)
 

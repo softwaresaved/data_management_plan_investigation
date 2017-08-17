@@ -87,24 +87,19 @@ def plot_basic_seaborn(dict_of_dfs, redraw):
         df_temp = dict_of_dfs[current]
         # Title's from the lookup table
         title = current
-
-        if isinstance(df_temp.index.values, float):
-            print('Found a string')
-
         labels = df_temp.index
         
-
-        print(type(labels))
-#        if labels.str.isnumeric() == True:
-#            print('Its a float')
-            # labels = lanels
-
+        # Some labels are floats, but they represent years, so they
+        # don't plot right. Hence, convert these to integers
+        if labels.dtype == float:
+            labels = labels.astype(int)
 
         # Some of the labels are really long so I cut them up
         # Note the str() function that's needed because one of
         # the sets of labels is a list of floats (which can't be split)
         labels = [ '\n'.join(wrap(str(l), 15)) for l in labels ]
 
+        # Added this to make testing quicker
         if redraw == 'y':
             # Now plot first plot
             sns.barplot(x = labels, y = df_temp[current], data = df_temp).set_title(title)
@@ -112,7 +107,7 @@ def plot_basic_seaborn(dict_of_dfs, redraw):
             plt.subplots_adjust(bottom=0.3)
             plt.ylabel('No. of outcomes')
             plt.xticks(rotation=90)
-#        plt.savefig(STOREFILENAME + 'basic_counts/' + title + '.png', format = 'png', dpi = 150)
+            plt.savefig(STOREFILENAME + 'basic_counts/' + title + '.png', format = 'png', dpi = 150)
             plt.show()
             # Funnliy enough, Seaborn seems a bit sticky. There's a weird kind of
             # colour bleed from one plot to the next. However, by explicitly clearing the 

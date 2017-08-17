@@ -58,7 +58,7 @@ def get_counts(df):
     return dict_of_dfs
 
 
-def plot_basic_seaborn(dict_of_dfs):
+def plot_basic_seaborn(dict_of_dfs, redraw):
     """
     Create a basic plot for each question. Plots of more specific interest will
     be created in a separate function, because it's impossible to automate it.
@@ -87,25 +87,37 @@ def plot_basic_seaborn(dict_of_dfs):
         df_temp = dict_of_dfs[current]
         # Title's from the lookup table
         title = current
+
+        if isinstance(df_temp.index.values, float):
+            print('Found a string')
+
         labels = df_temp.index
+        
+
+        print(type(labels))
+#        if labels.str.isnumeric() == True:
+#            print('Its a float')
+            # labels = lanels
+
 
         # Some of the labels are really long so I cut them up
         # Note the str() function that's needed because one of
         # the sets of labels is a list of floats (which can't be split)
         labels = [ '\n'.join(wrap(str(l), 15)) for l in labels ]
 
-        # Now plot first plot
-        sns.barplot(x = labels, y = df_temp[current], data = df_temp).set_title(title)
-        # Make gap at bottom bigger for labels (it's a fraction, not a measurement)
-        plt.subplots_adjust(bottom=0.3)
-        plt.ylabel('No. of outcomes')
-        plt.xticks(rotation=90)
-        plt.savefig(STOREFILENAME + 'basic_counts/' + title + '.png', format = 'png', dpi = 150)
-        plt.show()
-        # Funnliy enough, Seaborn seems a bit sticky. There's a weird kind of
-        # colour bleed from one plot to the next. However, by explicitly clearing the 
-        # frame in the following step, it's all sorted
-        plt.clf()
+        if redraw == 'y':
+            # Now plot first plot
+            sns.barplot(x = labels, y = df_temp[current], data = df_temp).set_title(title)
+            # Make gap at bottom bigger for labels (it's a fraction, not a measurement)
+            plt.subplots_adjust(bottom=0.3)
+            plt.ylabel('No. of outcomes')
+            plt.xticks(rotation=90)
+#        plt.savefig(STOREFILENAME + 'basic_counts/' + title + '.png', format = 'png', dpi = 150)
+            plt.show()
+            # Funnliy enough, Seaborn seems a bit sticky. There's a weird kind of
+            # colour bleed from one plot to the next. However, by explicitly clearing the 
+            # frame in the following step, it's all sorted
+            plt.clf()
 
     return
     
@@ -120,7 +132,8 @@ def main():
     dfs_counts = get_counts(df)
     print(df.columns)
     
-    plot_basic_seaborn(dfs_counts)
+    redraw = input('Should I re-draw the charts? (y/n): ')
+    plot_basic_seaborn(dfs_counts, redraw)
     
 if __name__ == '__main__':
     main()

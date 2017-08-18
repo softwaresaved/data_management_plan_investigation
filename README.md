@@ -20,3 +20,23 @@ The keyword for this project will be 'Agile'. We know the general direction, but
 1. Analyse research outcomes and look for trends or peculiarities.
 1. Investigate whether DMPs can be converted to searchable text
 1. Perform projects to understand affect of DMPs on research
+
+## Getting the data
+
+*Note that some of the data files must be unzipped before running the program. See below for details*
+
+The research outcomes are collected from UK-based researchers via Researchfish and made available for downloaded from Gateway to Research. The data was obtained as follows:
+
+1. Go to [Gateway to Research](http://gtr.rcuk.ac.uk/)
+1. Click the "All data" button on the right-hand side of the search box
+1. Select the "Outcomes" tab
+1. *Since it is not possible currently to simply download all outcomes, the following process must be followed*. Click the first "Outcome type" (at the time of writing it is "Engagement Activities")
+1. Click the small "csv" button (just below the Outcomes tab)
+1. Click back on your browser
+1. Select the next in the list of "Outcome type" and repeat the above process for downloading the csv
+1. Continue to repeat this process until all outcome types have been downloaded
+
+### File size problem
+
+Some of the outcomes files are greater than the file size limit of Github, the larger files have been zipped. Before running the analysis, you must unzip these zip files.
+

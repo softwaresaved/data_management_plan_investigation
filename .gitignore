@@ -1,4 +1,5 @@
 venv/*
+data/all_outcomes.csv
 data/disseminationsearch-1502980767275.csv
 data/collaborationsearch-1502981421345.csv
 data/keyfindingssearch-1502985309384.csv

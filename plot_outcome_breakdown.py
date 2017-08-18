@@ -12,8 +12,6 @@ import seaborn as sns
 from textwrap import wrap
 
 DATA_FILE_DIR = "./data/"
-DATAFILENAME1 = "./data/researchdatabaseandmodelsearch-1502793915306.csv"
-DATAFILENAME2 = "./data/researchmaterialsearch-1502793014976.csv"
 STOREFILENAME = "./output/"
 
 

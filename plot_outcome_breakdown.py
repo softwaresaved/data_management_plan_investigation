@@ -5,12 +5,13 @@
 import pandas as pd
 import numpy as np
 import csv
+import os.path
 import matplotlib.pyplot as plt
 import math
 import seaborn as sns
 from textwrap import wrap
 
-
+DATA_FILE_DIR = "./data/"
 DATAFILENAME1 = "./data/researchdatabaseandmodelsearch-1502793915306.csv"
 DATAFILENAME2 = "./data/researchmaterialsearch-1502793014976.csv"
 STOREFILENAME = "./output/"
@@ -36,28 +37,57 @@ def export_to_csv(df, location, filename):
     return df.to_csv(location + filename + '.csv')
 
 def get_data_and_merge(file1, file2):
-
-    df1 = import_csv_to_df(file1)
-    df2 = import_csv_to_df(file2)
-
-    frames = [df1, df2]
+    """
+    Build dataframes from each of the outcome classes and
+    merge them.
+    :params: nothing
+    :return: a dataframe built from csvs in a folder
+    """
     
-    df = pd.concat(frames)
+    dfs_imports = {}
+
+    # Go through all the csvs in the dir, import them into
+    # dfs and then add each one to a dict of dfs
+    for file in os.listdir(DATA_FILE_DIR):
+        if file.endswith('.csv'):
+            # Create a nice name for each df
+            df_name = file[:-4]
+            dfs_imports[df_name] = import_csv_to_df(DATA_FILE_DIR + str(file))
+
+#    frames = list(dfs_imports.keys())
+#    df1 = import_csv_to_df(file1)
+#    df2 = import_csv_to_df(file2)
+#    frames = [df1, df2]
+    
+    # Merge all the dfs in the dict into a super-df
+    df = pd.concat(dfs_imports.values())
 
     return df
 
+
 def lower_case(df):
+    """
+    Make all string-holding fields lower case to
+    make matching easier later in the program
+    :params: a df
+    :return: a df with all string fields lower-cased
+    """
 
     for current_col in df.columns:
         try:
             df[current_col].str.lower()
         except:
-            print('Could not be converted to lower case')
+            print('Could not convert \"' + current_col + '\" column to lower case')
 
     return df
 
 
 def basic_stats(df):
+    """
+    Get some basic stats on the data
+    :params: a df
+    :return: Just text
+    """
 
     print('The data frame contains ' + str(len(df)) + ' outcomes') 
 
@@ -65,7 +95,12 @@ def basic_stats(df):
 
 
 def find_strings(df):
-
+    """
+    Look for the number of times that particular words are
+    present in the dataframe
+    :params: a df
+    :return: just text
+    """
 
     # Want to cycle through different words to see how well they are
     # represented in the df
@@ -98,6 +133,13 @@ def find_strings(df):
 
 
 def get_counts(df):
+    """
+    Go through each field in the dataframe, and summarise the number of
+    times each entry is present
+    :params: a df
+    :return: a dict of dfs, each of which includes a summary of a specific
+             field
+    """
 
     dict_of_dfs = {}
 

@@ -11,7 +11,7 @@ import math
 import seaborn as sns
 from textwrap import wrap
 
-DATA_FILE_DIR = "./data/"
+DATAFILENAME = "./data/all_outcomes.csv"
 STOREFILENAME = "./output/"
 
 
@@ -33,51 +33,6 @@ def export_to_csv(df, location, filename):
     """
 
     return df.to_csv(location + filename + '.csv')
-
-def get_data_and_merge(file1, file2):
-    """
-    Build dataframes from each of the outcome classes and
-    merge them.
-    :params: nothing
-    :return: a dataframe built from csvs in a folder
-    """
-    
-    dfs_imports = {}
-
-    # Go through all the csvs in the dir, import them into
-    # dfs and then add each one to a dict of dfs
-    for file in os.listdir(DATA_FILE_DIR):
-        if file.endswith('.csv'):
-            # Create a nice name for each df
-            df_name = file[:-4]
-            dfs_imports[df_name] = import_csv_to_df(DATA_FILE_DIR + str(file))
-
-#    frames = list(dfs_imports.keys())
-#    df1 = import_csv_to_df(file1)
-#    df2 = import_csv_to_df(file2)
-#    frames = [df1, df2]
-    
-    # Merge all the dfs in the dict into a super-df
-    df = pd.concat(dfs_imports.values())
-
-    return df
-
-
-def lower_case(df):
-    """
-    Make all string-holding fields lower case to
-    make matching easier later in the program
-    :params: a df
-    :return: a df with all string fields lower-cased
-    """
-
-    for current_col in df.columns:
-        try:
-            df[current_col].str.lower()
-        except:
-            print('Could not convert \"' + current_col + '\" column to lower case')
-
-    return df
 
 
 def basic_stats(df):
@@ -145,6 +100,8 @@ def get_counts(df):
         df_temp = pd.DataFrame(data = (df[field].value_counts(sort=True)))
         dict_of_dfs[field] = df_temp
 
+#    print(dict_of_dfs)
+
     return dict_of_dfs
 
 
@@ -155,16 +112,13 @@ def plot_basic_seaborn(dict_of_dfs, redraw):
     Uses Seaborn to try and make things prettier
     :params: a dict of dataframe, the imported plot details
     :return: A list of saved charts
-    """
-    
-    """
-    Potential columns that could be printed
-           'Department', 'Description', 'Funding OrgName', 'FundingOrgId',
-           'GTR Outcome URL', 'GTRProjectUrl', 'Impact', 'LeadRO Name', 'LeadROId',
-           'Outcome Title', 'Outcome Type', 'PI First Name', 'PI Orcid iD',
-           'PI Surname', 'PIId', 'Project Reference', 'ProjectCategory',
-           'ProjectId', 'Provided to Others?', 'Software Developed?',
-           'Software Open Source?', 'Type of Material', 'Url', 'Year Produced'
+
+    Each of the outcomes contain different fields, but the following fields
+    are shared over all outcomes:
+
+    'Project Reference', 'ProjectCategory', 'Outcome Type', 'LeadRO Name', 'Department',
+    'PI Surname', ‘PI First Name', 'PI Orcid iD', 'GTR Outcome URL', 'GTRProjectUrl',
+    'ProjectId', 'FundingOrgId', 'LeadROId', 'PIId'
     """
     
     things_to_print = ['Funding OrgName', 'LeadRO Name',
@@ -212,16 +166,15 @@ def main():
     Main function to run program
     """
     
-    df = get_data_and_merge(DATAFILENAME1, DATAFILENAME2)
+    df = import_csv_to_df(DATAFILENAME)
 
-    df = lower_case(df)
+    print(df.dtypes)
 
     basic_stats(df)
 
     find_strings(df)
     
     dfs_counts = get_counts(df)
-    print(df.columns)
     
     redraw = input('Should I re-draw the charts? (y/n): ')
     plot_basic_seaborn(dfs_counts, redraw)

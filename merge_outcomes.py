@@ -45,6 +45,13 @@ def get_data_and_merge():
             # Create a nice name for each df
             df_name = file[:-4]
             dfs_imports[df_name] = import_csv_to_df(DATA_FILE_DIR + str(file))
+            # Lower case the colnames, because they haven't been consistently typed
+            dfs_imports[df_name].columns = [x.lower() for x in dfs_imports[df_name].columns]
+            # Lowercase all the columns that contain text
+            for current_col in dfs_imports[df_name].columns:
+                # i.e. if the column contains text...
+                if dfs_imports[df_name][current_col].dtype == object:
+                    dfs_imports[df_name][current_col].str.lower()
     # Merge all the dfs in the dict into a super-df
     df = pd.concat(dfs_imports.values())
 
@@ -57,8 +64,6 @@ def main():
     """
     
     df = get_data_and_merge()
-    
-    print(df.columns)
     
     export_to_csv(df, DATA_FILE_DIR, 'all_outcomes')
 

@@ -121,8 +121,8 @@ def plot_basic_seaborn(dict_of_dfs, redraw):
     'ProjectId', 'FundingOrgId', 'LeadROId', 'PIId'
     """
     
-    things_to_print = ['Funding OrgName', 'LeadRO Name',
-           'Outcome Type', 'Type of Material', 'Year Produced']
+    things_to_print = ['funding orgname','leader name',
+           'outcome type', 'type of material', 'year produced']
     
     labels=[]
     
@@ -167,8 +167,6 @@ def main():
     """
     
     df = import_csv_to_df(DATAFILENAME)
-
-    print(df.dtypes)
 
     basic_stats(df)
 

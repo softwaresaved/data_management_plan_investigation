@@ -65,6 +65,8 @@ def main():
     
     df = get_data_and_merge()
     
+    print('The data frame contains ' + str(len(df)) + ' outcomes') 
+    
     export_to_csv(df, DATA_FILE_DIR, 'all_outcomes')
 
 if __name__ == '__main__':
